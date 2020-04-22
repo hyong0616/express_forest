@@ -90,36 +90,9 @@ router1.route('/save').post(function(req,res){
     var vol_name = req.body.vol_name;
     var vol_date = req.body.vol_date;
     var vol_time = req.body.vol_time;
-    fs.exists('record.json',function(exists){
-        if(exists){
-            fs.readFile('record.json',function readFileCallback(err,data){
-                if(err){
-                    console.log(err);
-                }
-                else{
-                      obj = JSON.parse(data);
-                      obj.table.push({Student_Afflication : student_affli,
-                                      Student_Name : student_name,
-                                      Volunteer_Afflication : vol_name,
-                                      Activity_Date : vol_date,
-                                      Activity_Time : vol_time});
-
-                      var json = JSON.stringify(obj);
-                      fs.writeFileSync('record.json',json);
-                }
-            });
-        }
-        else {
-              obj.table.push({Student_Afflication : student_affli,
-              Student_Name : student_name,
-              Volunteer_Afflication : vol_name,
-              Activity_Date : vol_date,
-              Activity_Time : vol_time});
-
-              var json = JSON.stringify(obj);
-              fs.writeFileSync('record.json',json);
-        }
-    });
+    
+    invoke_chain(student_name, vol_name,vol_date,vol_time);
+   
     res.write('finish');
     res.end();
 });
