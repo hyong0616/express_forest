@@ -9,7 +9,8 @@
     "scripts": {
         "lint": "eslint .",
         "pretest": "npm run lint",
-        "test": "nyc mocha --recursive"
+        "test": "nyc mocha --recursive",
+        "start": "node app/vol_server.js"
     },
     "engineStrict": true,
     "author": "Hyperledger",

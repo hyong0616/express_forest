@@ -14,11 +14,12 @@ var server = app.listen(3001,function(){
         console.log("Express server has start")
         })
 
+app.use('/static/',express.static(__dirname + '/views'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
 app.get('/',function(req,res){
-        res.sendFile(__dirname + '/app/index.html');
+        res.sendFile(__dirname + '/views/main.html');
         });
 
 router1.route('/login').post(function(req,res){
@@ -26,7 +27,7 @@ router1.route('/login').post(function(req,res){
     var user_id = req.body.id;
     var user_pw = req.body.password;
     //user login check
-    res.sendFile(__dirname+'/app/input.html')
+    res.sendFile(__dirname+'/views/input.html')
 })
 
 
@@ -93,7 +94,7 @@ router1.route('/save').post(function(req,res){
     var vol_time = req.body.vol_time;
     
     invoke_chain(student_name, vol_name,vol_date,vol_time);
-   
+    
     res.write('finish');
     res.end();
 });
