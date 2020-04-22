@@ -14,6 +14,7 @@ var server = app.listen(3001,function(){
         console.log("Express server has start")
         })
 
+app.use('/static/',express.static(__dirname + '/views'));
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
