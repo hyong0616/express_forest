@@ -3,6 +3,7 @@
 const{Gateway, Wallets} = require('fabric-network');
 const path = require('path');
 
+const config = require('./config/config');
 
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -37,7 +38,7 @@ async function invoke_chain(student_name, vol_name, vol_date, vol_time) {
     console.log('==========INVOKE FUNC START==========');
 try {
         // load the network configuration
-        const ccpPath = path.resolve(__dirname, '..', 'fabric-network', 'organizations', 'peerOrganizations', 'vol1.example.com', 'connection-vol1.json');
+        const ccpPath = path.resolve(config.path.FABRIC_NETWORK_PATH, 'organizations', 'peerOrganizations', 'vol1.example.com', 'connection-vol1.json');
         let ccp = JSON.parse(fs.readFileSync(ccpPath, 'utf8'));
 
         // Create a new file system based wallet for managing identities.
