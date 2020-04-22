@@ -8,3 +8,6 @@ volent/
 # test file
 server.js
 record.json
+
+# dotenv
+app/config/.env
