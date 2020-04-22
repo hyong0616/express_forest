@@ -1,9 +1,10 @@
 # node.js
 node_modules/
+package-lock.json
 
 # volent server user
 volent/
 
-#test file
+# test file
 server.js
 record.json
