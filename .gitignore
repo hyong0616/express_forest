@@ -4,6 +4,8 @@ package-lock.json
 
 # volent server user
 volent/
+volent2/
+con/
 
 # test file
 server.js
