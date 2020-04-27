@@ -8,28 +8,24 @@ const config = require('../config/config');
 
 const FovConfig = require('./fov-config');
 
-class FovCon extends FovConfig {
-    constructor(user='default') {
-        const ccpPath = path.resolve(config.path.FABRIC_NETWORK_PATH, 'organizations', 'peerOrganizations', 'con1.example.com', 'connection-con1.json');
-        const conPath = path.join(process.cwd(), 'con');
-        
-        super(ccpPath, conPath, user);
-    }
+module.exports = (async function(user) {
+    const ccpPath = path.resolve(config.path.FABRIC_NETWORK_PATH, 'organizations', 'peerOrganizations', 'con1.example.com', 'connection-con1.json');
+    const conPath = path.join(process.cwd(), 'con');
 
-    async init(){
-        const ccpPath = path.resolve(config.path.FABRIC_NETWORK_PATH, 'organizations', 'peerOrganizations', 'con1.example.com', 'connection-con1.json');
-        const conPath = path.join(process.cwd(), 'con');
-
-        await super.init(ccpPath, conPath, 'common');
-    }
+    let fovCon = await FovConfig({ ccpPath:ccpPath, walPath:conPath });
     
-    async getVolentByUser(identityValue){
+    fovCon.getVolentByUser = async (identityValue) => {
+        let value = '';
         try{
-            return this._contract.evaluateTransaction('queryVolent', identityValue); 
+            const contract = await fovCon.connect(user);
+            value = contract.evaluateTransaction('queryVolent', identityValue); 
+            await fovCon.disconnect();
         } catch (err) {
-            return '';
+            console.log(err);
         }
-    }
-}
 
-module.exports = FovCon;
+        return value;
+    }
+
+    return fovCon;
+});
