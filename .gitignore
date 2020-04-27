@@ -1,13 +1,15 @@
 # node.js
-node_modules/
-package-lock.json
+/node_modules/
+/package-lock.json
 
 # volent server user
-volent/
+/volent/
+/volent2/
+/con/
 
 # test file
-server.js
-record.json
+/server.js
+/record.json
 
 # dotenv
-app/config/.env
+/app/config/.env
