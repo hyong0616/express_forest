@@ -116,7 +116,6 @@ router.route('/login').post(function(req,res){
         console.log('==========LOGIN START==========');
         var user_id = req.body.login_email;
         var user_pw = req.body.login_passwd;
-	console.log(session);
 	//user login check
         userModel.findOne({"id": user_id,"password": user_pw},function(error,user){
 
