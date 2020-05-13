@@ -27,5 +27,17 @@ module.exports = (async function(user) {
         return value;
     }
 
+    fovCon.getAllVolents = async () => {
+        let value = '';
+        try{
+            const contract = await fovCon.connect(user);
+            value = contract.evaluateTransaction('queryAllVolents'); 
+            await fovCon.disconnect();
+        } catch (err) {
+            console.log(err);
+        }
+
+        return value;
+    }
     return fovCon;
 });
