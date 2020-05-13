@@ -18,7 +18,9 @@
 <body >
 
     <div class="tm-bg-img-header">
-        <div class="container-fluid">
+         
+	 <div class="container-fluid">
+	
             <div id="top" class="tm-header-container">
                 <div class="row tm-site-header">
                     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-xs-center">
@@ -47,7 +49,12 @@
                             <input type="text" name="vol_time" class="form-control" placeholder="봉사 시간"  required/>
                         </div>
             
-                        <button type="submit" class="btn tm-btn-brown-square pull-xs-right">봉사 등록</button>                            
+                        <button type="submit" class="btn tm-btn-brown-square pull-xs-right">봉사 등록</button>   
+		    </form>
+
+		    <form action="/process/logout" method="post" class="tm-contact-form">
+			<button type="submit" class="btn tm-btn-brown-square pull-xs-right">logout</button>
+		    </form>
                 </div> 
             </div>
         </div>    

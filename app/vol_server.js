@@ -125,7 +125,8 @@ router.route('/login').post(function(req,res){
 		}
 
 		else{
-                        console.log("아이디나 비밀번호가 존재하지 않습니다.");
+                        user_pw = '비밀번호가 틀렸습니다.'
+			console.log("아이디나 비밀번호가 존재하지 않습니다.");
                         res.redirect('/loginpage');
                 }
         });
