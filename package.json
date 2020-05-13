@@ -10,7 +10,9 @@
         "lint": "eslint .",
         "pretest": "npm run lint",
         "test": "nyc mocha --recursive",
-        "start": "node app/vol_server.js"
+        "start": "mkdir -p log && nohup node app/con_server.js 2>&1>log/con_log & && node app/vol_server.js",
+        "con": "node app/con_server.js",
+        "vol": "node app/vol_server.js"
     },
     "engineStrict": true,
     "author": "Hyperledger",
