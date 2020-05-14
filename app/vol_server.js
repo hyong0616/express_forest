@@ -2,6 +2,7 @@
 
 
 var express = require('express');
+var path = require('path');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
@@ -47,9 +48,13 @@ app.use('/process', processRouter);
 app.use('/loginpage', loginRouter);
 
 app.get('/',function(req,res){
-        res.redirect('/loginpage');
-	if (req.session.key)
-		console.log('success session');
+        if (req.session.key)
+	{
+	    res.sendFile(__dirname + '/views/input.html');
+	    console.log('success session')
+	}
+	else
+	    res.redirect('/loginpage');
 });
 
 

@@ -89,13 +89,16 @@ router.route('/make_member').post(function(req,res){
 }); 
 
 router.route('/logout').post(function(req,res){
-    console.log('====== LOGOUT ======');
-    req.session.destroy();
-    res.redirect('/');
+    if (req.session.key) {
+    	console.log('====== LOGOUT ======');
+    	req.session.destroy();
+    	res.redirect('http://localhost:3000');
+    }
 });
 
 router.route('/save').post(async function(req,res){
-    console.log('==========SAVE START=========');
+    if (req.session.key) {
+	console.log('==========SAVE START=========');
     var student_affli = req.body.student_affli;
     var student_name = req.body.student_name;
     var vol_name = req.body.vol_name;
@@ -108,8 +111,8 @@ router.route('/save').post(async function(req,res){
     } catch (err) {
         console.log(err);
     }
-    res.write('finish');
-    res.end();
+    res.redirect('http://localhost:3001');
+    }
 });
 
 module.exports = router;
