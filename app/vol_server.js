@@ -14,7 +14,7 @@ var session = require('express-session');
 var redisStore = require('connect-redis')(session);
 var app = express();
 var router = express.Router();
-mongoose.connect('mongodb://localhost:27017', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost:27017/fov', {useNewUrlParser: true});
 
 var db = mongoose.connection;
 const Schema = mongoose.Schema;
@@ -24,6 +24,8 @@ const userSchema = new Schema({
         "password" : String,
         "name" : String,
         "organization" : String,
+},{
+        versionKey:false
 });
 userSchema.set('collection','vol_organization');
 var userModel = mongoose.model('vol_organization',userSchema);
