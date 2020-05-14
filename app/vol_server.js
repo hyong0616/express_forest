@@ -60,7 +60,7 @@ app.use(session({
 app.use('/process',router);
 
 app.get('/',function(req,res){
-        res.sendFile(__dirname + '/views/main.html');
+        res.redirect('/loginpage');
 	if (req.session.key)
 		console.log('success session');
 });

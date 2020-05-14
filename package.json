@@ -10,9 +10,11 @@
         "lint": "eslint .",
         "pretest": "npm run lint",
         "test": "nyc mocha --recursive",
-        "start": "mkdir -p log && nohup node app/con_server.js 2>&1>log/con_log & && node app/vol_server.js",
-        "con": "node app/con_server.js",
-        "vol": "node app/vol_server.js"
+        "start": "npm run con-pro && npm run vol1-pro && node app/main_server.js",
+        "con-dev": "node app/con_server.js",
+        "con-pro": "mkdir -p log && node app/con_server.js 2>&1>log/con1_log &",
+        "vol-dev": "node app/vol_server.js",
+        "vol1-pro": "mkdir -p log && node app/vol_server.js 2>&1>log/vol1_log &"
     },
     "engineStrict": true,
     "author": "Hyperledger",
