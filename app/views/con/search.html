@@ -2,12 +2,16 @@
 <head>
     <meta charset="utf-8">
     <title>Forest of Volunteer</title>
+    <style>
+        table {width: 100;}
+        table, th, td {border: 1px solid;}
+    </style>
 </head>
 <body>
     <div>
         <form action="/" method="GET">
             <input type="text" placeholder="key" name="key" value="${!key?'':key}">
-            <input type="button" name="search-button" value="찾기">
+            <input type="submit" value="찾기">
         </form>
     </div>
     <div>

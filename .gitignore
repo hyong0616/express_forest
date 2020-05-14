@@ -13,3 +13,6 @@
 
 # dotenv
 /app/config/.env
+
+# log directory
+/log/
