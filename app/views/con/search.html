@@ -1,20 +1,110 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
+    
     <title>Forest of Volunteer</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">  
+    <link rel="stylesheet" href="static/font-awesome-4.5.0/css/font-awesome.min.css">                
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">                                      
+    <link rel="stylesheet" href="static/css/templatemo-style.css">  
+   
+    
     <style>
         table {width: 100;}
         table, th, td {border: 1px solid;}
     </style>
 </head>
-<body>
-    <div>
-        <form action="/" method="GET">
-            <input type="text" placeholder="key" name="key" value="${!key?'':key}">
-            <input type="submit" value="찾기">
-        </form>
+
+<body class="tm-bg-img-content">
+
+    <div class="tm-bg-img-content">
+        <div class="container-fluid">
+            <div class="row" id="tm-section-4">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-xs-center">
+
+                    <p class="tm-section-subtitle tm-section-subtitle-contact">
+		    <h2 class="tm-2-col-text-title"> 봉사 내역을 확인 합니다.</h2>
+                    </p>
+
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <p>${content}</p>
+
+    <div class="tm-section-contact-form">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-xs-center">
+
+
+        	<form action="/" method="GET">
+            	    <input type="text" placeholder="key" name="key" value="${!key?'':key}">
+            	    <input type="submit" value="찾기">
+        	</form>
+		</div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-xs-center">
+                	<p class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 text-xs-center">${content}</p>
+                </div>
+
+
+
+            </div>
+
+        </div>
     </div>
+
+    <script>
+
+        function prepareMenuForDesktop() {
+
+            var navbarHeight = 0;
+            
+            // For screens greater than 767
+            if($(window).width() > 767) {
+
+                // target at which the menu bar changes to sticky
+                var target = $("#tm-section-1").offset().top - 100;
+
+                // window scroll
+                $(window).scroll(function(){
+
+                    if($(this).scrollTop() > target) {                            
+                        $(".tm-navbar-row").addClass("sticky");                            
+                    }
+                    else {
+                        $(".tm-navbar-row").removeClass("sticky");
+                    }     
+
+                }); 
+
+                navbarHeight = 56;
+            }
+
+            // Single Page Nav
+            $('#tmNavbar').singlePageNav({
+               'currentClass' : "active",
+                offset : navbarHeight,
+                'filter': ':not(.external)'
+            });  
+        }  
+   
+        $(document).ready(function(){                 
+
+            prepareMenuForDesktop();
+
+            // On window resize, prepare menu
+            $(window).resize(function(){
+                prepareMenuForDesktop();                 
+
+   });       
+        });
+
+    </script>
+
 </body>
+
+
+
+
+
+
