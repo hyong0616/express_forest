@@ -12,14 +12,14 @@ var mongoose = require('mongoose');
 var redis = require('redis');
 var session = require('express-session');
 var redisStore = require('connect-redis')(session);
-
 var app = express();
 var router = express.Router();
-mongoose.connect('mongodb://localhost:27017/fov', {useNewUrlParser: true});
+mongoose.connect('mongodb://localhost:27017', {useNewUrlParser: true});
+
 var db = mongoose.connection;
-var Schema = mongoose.Schema;
-var userSchema = new Schema({
-        "_id" : Schema.Types.ObjectId,
+const Schema = mongoose.Schema;
+const userSchema = new Schema({
+//        "_id" : Schema.Types.ObjectId,
         "id" : String,
         "password" : String,
         "name" : String,
@@ -56,6 +56,7 @@ app.use(session({
 );
 
 app.use('/process',router);
+
 app.get('/',function(req,res){
         res.sendFile(__dirname + '/views/main.html');
 	if (req.session.key)
@@ -112,6 +113,12 @@ app.get('/loginpage',function(req,res){
 	res.sendFile(__dirname+ '/views/login.html');
 });
 
+router.route('/join').post(function(req,res){
+        console.log('==========Make member =========');
+        res.sendFile(__dirname+'/views/join_page.html');
+     
+      });
+
 router.route('/login').post(function(req,res){
         console.log('==========LOGIN START==========');
         var user_id = req.body.login_email;
@@ -133,7 +140,36 @@ router.route('/login').post(function(req,res){
 
         //user session set
 });
+router.route('/dup_email').post(function (req,res){
+        console.log('========check dup_email==========');
+        var check_email=req.body.user_email;
 
+        userModel.findOne({"id": check_email },function(error,user){
+                if(user != null){
+              
+                }
+                else{
+                }
+                });
+        
+        });
+router.route('/make_member').post(function(req,res){
+        console.log('========== Make_Member =========');
+        var member_id=req.body.user_email;
+        var member_pass=req.body.user_psswd;
+        var member_name=req.body.user_name;
+
+       var save_data= new userModel({"id": member_id,"password":member_pass,"name":member_name, "organization": "sample"});
+     
+       console.log('id:'+member_id+'password;'+member_pass+'name;'+member_name);
+       
+       save_data.save(function (err,save_data) {
+               if(err)
+               console.err(err);      
+               });
+       res.redirect('/loginpage');
+       
+     }); 
 router.route('/logout').post(function(req,res){
 	console.log('====== LOGOUT ======');
 	req.session.destroy();
@@ -142,10 +178,6 @@ router.route('/logout').post(function(req,res){
 
 router.route('/save').post(function(req,res){
     	console.log('==========SAVE START=========');
-
-
-	
-
     	var student_affli = req.body.student_affli;
     	var student_name = req.body.student_name;
     	var vol_name = req.body.vol_name;
