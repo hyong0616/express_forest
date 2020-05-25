@@ -8,6 +8,13 @@ const path = require('path');
 
 var app = express();
 
+const FovCon = require('./lib/fov-con');
+try {
+    const fov = await FovCon('admin');
+    await fov.enrollAdmin();
+} catch(err) {
+    console.log(err);
+}
 
 /*
  * Get Router
