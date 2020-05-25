@@ -34,6 +34,7 @@ module.exports = (async function(config) {
             contract = network.getContract(CONTRACT_NAME);
         } catch (err) {
             console.log(err);
+            throw err;
         }
         return contract;
     }
@@ -90,7 +91,14 @@ module.exports = (async function(config) {
         try{
             const adminIdentity = await wallet.get(admin);
             if (adminIdentity) {
-                return adminIdentity;
+                try {
+                    await fovConfig.connect();
+                    fovConfig.disconnect();
+                    return adminIdentity;
+                } catch(err) {
+                    console.log('ERROR : admin connect error');
+                    console.log('Enroll Admin');
+                }
             }
             const caInfo = ccp.certificateAuthorities[cert];
             const caTLSCACerts = caInfo.tlsCACerts.pem;
@@ -112,6 +120,6 @@ module.exports = (async function(config) {
         }
         return identity;
     }
-    
+
     return fovConfig;
 });
