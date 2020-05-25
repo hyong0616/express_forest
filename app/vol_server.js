@@ -8,12 +8,14 @@ var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var app = express();
 const FovVol = require('./lib/fov-vol');
-try {
-    const fov = await FovVol('admin');
-    await fov.enrollAdmin();
-} catch(err) {
-    console.log(err);
-}
+(async () => {
+    try {
+        const fov = await FovVol('admin');
+        await fov.enrollAdmin();
+    } catch(err) {
+        console.log(err);
+    }
+})();
 
 /*
  * Redis
