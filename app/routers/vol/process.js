@@ -14,6 +14,10 @@ mongoose.connect('mongodb://localhost:27017/fov', {useNewUrlParser: true});
 
 var db = mongoose.connection;
 const Schema = mongoose.Schema;
+
+/*
+ * user 정보 schema
+ */
 const userSchema = new Schema({
             "id" : String,
             "password" : String,
@@ -24,6 +28,21 @@ const userSchema = new Schema({
     });
 userSchema.set('collection','vol_organization');
 var userModel = mongoose.model('vol_organization',userSchema);
+
+/*
+ * point 정보 schema
+ */
+const pointSchema = new Schema({
+        "vol_name" : String,
+        "point" : Number,
+    },{
+            versionKey:false
+    });
+pointSchema.set('collection','vol_point');
+var pointModel = mongoose.model('vol_point',pointSchema);
+
+
+
 db.on('error',function(){
     console.log("Connection Failed");
 });
@@ -113,6 +132,29 @@ router.route('/save').post(async function(req,res){
     } catch (err) {
         console.log(err);
     }
+
+
+    /*
+     * point db에 저장
+     */
+    pointModel.findOne({"vol_name": vol_name},function(error,user){
+
+        if (user!=null){
+            pointModel.update({"vol_name":vol_name},{$inc:{point: +time} });
+        }
+
+        else{
+            var save_data= new pointModel({"vol_name": vol_name, "point": time});
+
+            save_data.save(function (err,save_data) {
+            if(err)
+               console.err(err);
+             });
+
+        }
+    });
+
+
     res.redirect('http://localhost:3001');
     }
 });
