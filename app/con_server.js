@@ -37,6 +37,7 @@ client.on("error",function(err){
 const searchRouter = require('./routers/con/search');
 const loginRouter = require('./routers/con/login');
 const processRouter = require('./routers/con/process');
+const infoRouter = require('./routers/con/info');
 
 /*
  * Express Middleware
@@ -60,6 +61,7 @@ app.use(session({
 app.use('/', searchRouter);
 app.use('/loginpage', loginRouter);
 app.use('/process', processRouter);
+app.use('/info', infoRouter);
 
 
 var server = app.listen(3002,function(){
