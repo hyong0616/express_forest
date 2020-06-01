@@ -94,10 +94,11 @@ router.route('/make_member').post(function(req,res){
     var member_id=req.body.user_email;
     var member_pass=req.body.user_psswd;
     var member_name=req.body.user_name;
+    var member_organ=req.body.user_company;
 
-   var save_data= new userModel({"id": member_id,"password":member_pass,"name":member_name, "organization": "sample"});
+   var save_data= new userModel({"id": member_id,"password":member_pass,"name":member_name, "organization": member_organ});
  
-   console.log('id:'+member_id+'password;'+member_pass+'name;'+member_name);
+   console.log('id : '+member_id+' password : '+member_pass+' name : '+member_name+' organization : '+member_organ);
    
    save_data.save(function (err,save_data) {
         if(err)
@@ -118,17 +119,17 @@ router.route('/logout').post(function(req,res){
 router.route('/save').post(async function(req,res){
     if (req.session.key) {
 	console.log('==========SAVE START=========');
-    var student_affli = req.body.student_affli;
-    var student_name = req.body.student_name;
-    var vol_name = req.body.vol_name;
-    var vol_date = req.body.vol_date;
-    var vol_time = req.body.vol_time;
-
+    var student_affli = req.body.student_affli; //학생 기관
+    var student_id = req.body.student_id; //학생 ID
+    var vol_name = req.body.vol_name; //봉사 기관 명
+    var vol_date = req.body.vol_date; //봉사 날짜
+    var vol_time = req.body.vol_time; //봉사시간
+    var time = Number(vol_time);
     // invoke_chain(student_name, vol_name,vol_date,vol_time);
 
     try {
         const fovvol = await FovVol('admin');
-        await fovvol.invokeChain(vol_time, vol_date, '숭실봉사센터', vol_name);
+        await fovvol.invokeChain(vol_time, vol_date, vol_name, student_id);
     } catch (err) {
         console.log(err);
     }
@@ -153,7 +154,7 @@ router.route('/save').post(async function(req,res){
 
         }
     });
-
+	
 
     res.redirect('http://localhost:3001');
     }
