@@ -53,18 +53,33 @@ router.route('/login').post(function(req,res){
     //user session set
 });
 
-router.route('/dup_email').post(function (req,res){
-    console.log('========check dup_email==========');
-    var check_email=req.body.user_email;
-
-    userModel.findOne({"id": check_email },function(error,user){
+async function checkUserId(user_id, func) {
+    await userModel.findOne({"id": user_id },function(error,user){
         if(user != null){
-        
+            func(true);
         }
         else{
-
+            func(false);
         }
-    });  
+    });
+}
+
+router.route('/dup_id').post(function (req,res){
+    console.log('========check dup_email==========');
+    var check_id=req.body.user_id;
+    let check = true;
+    checkUserId(check_id, function(check) {
+        if(check){
+            res.status(200).json({
+                'check': true
+            });
+        }
+        else{
+            res.status(200).json({
+                'check': false
+            });
+        }
+    });
 });
 
 router.route('/make_member').post(function(req,res){
@@ -77,6 +92,9 @@ router.route('/make_member').post(function(req,res){
     const member_birth = req.body.user_birth;
     const member_job = req.body.user_job;
 
+
+    checkUserId(member_id, function(check) {
+        if (!check) {
             const save_data= new userModel({
                 "id": member_id,
                 "password":member_pass,
@@ -89,14 +107,16 @@ router.route('/make_member').post(function(req,res){
  
             console.log('id : '+member_id+' password : '+member_pass+' name : '+member_name+" email : "+member_email +' organization : '+member_org);
             console.log(member_birth + ' ' + member_job);
+            
             save_data.save(function (err,save_data) {
                  if(err)
                     console.err(err);      
-           console.err(err);      
-                    console.err(err);      
              });
             res.redirect('/loginpage');
-   
+        } else {
+            res.redirect('/process/join');
+        }
+    });
 }); 
 
 router.route('/logout').post(function(req,res){
