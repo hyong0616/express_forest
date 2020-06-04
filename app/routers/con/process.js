@@ -12,7 +12,10 @@ const userSchema = new Schema({
             "id" : String,
             "password" : String,
             "name" : String,
+            "email" : String,
             "organization" : String,
+            "birth" : String,
+            "job" : String
     },{
             versionKey:false
     });
@@ -23,9 +26,9 @@ db.on('error',function(){
 });
 
 
-router.route('/join').post(function(req,res){
+router.route('/join').get(function(req,res){
     console.log('==========Make member =========');
-    res.sendFile(path.join(__dirname, '..', '..', 'views', 'join_page.html'));
+    res.sendFile(path.join(__dirname, '..', '..', 'views', 'con', 'join_page.html'));
 });
 
 router.route('/login').post(function(req,res){
@@ -66,19 +69,33 @@ router.route('/dup_email').post(function (req,res){
 
 router.route('/make_member').post(function(req,res){
     console.log('========== Make_Member =========');
-    var member_id=req.body.user_email;
+    var member_id=req.body.user_id;
+    var member_email=req.body.user_email;
     var member_pass=req.body.user_psswd;
     var member_name=req.body.user_name;
+    const member_org = req.body.user_company;
+    const member_birth = req.body.user_birth;
+    const member_job = req.body.user_job;
 
-   var save_data= new userModel({"id": member_id,"password":member_pass,"name":member_name, "organization": "sample"});
+            const save_data= new userModel({
+                "id": member_id,
+                "password":member_pass,
+                "name":member_name,
+                "email":member_email,
+                "organization": member_org,
+                "birth" : member_birth,
+                "job" : member_job
+            });
  
-   console.log('id:'+member_id+'password;'+member_pass+'name;'+member_name);
-   
-   save_data.save(function (err,save_data) {
-        if(err)
+            console.log('id : '+member_id+' password : '+member_pass+' name : '+member_name+" email : "+member_email +' organization : '+member_org);
+            console.log(member_birth + ' ' + member_job);
+            save_data.save(function (err,save_data) {
+                 if(err)
+                    console.err(err);      
            console.err(err);      
-    });
-   res.redirect('/loginpage');
+                    console.err(err);      
+             });
+            res.redirect('/loginpage');
    
 }); 
 
