@@ -58,10 +58,10 @@ app.use(session({
 /*
  * Use Router
  */
-app.use('/', searchRouter);
 app.use('/loginpage', loginRouter);
 app.use('/process', processRouter);
 app.use('/info', infoRouter);
+app.use('/', searchRouter);
 
 
 var server = app.listen(3002,function(){
