@@ -13,7 +13,7 @@ const Schema = mongoose.Schema;
  * point 정보 schema
  */
 const pointSchema = new Schema({
-        "vol_name" : String,
+        "vol_id" : String,
         "point" : Number,
     },{
             versionKey:false
@@ -52,7 +52,7 @@ router.get('/', async function(req, res) {
     	}
 	
 	//connect Database
-	pointModel.findOne({"vol_name": req.session.key},function(error,user){
+	pointModel.findOne({"vol_id": req.session.key},function(error,user){
 	
 	    if (user!=null) {
 	    	pointcontent = user.point;
