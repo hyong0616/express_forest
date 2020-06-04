@@ -17,8 +17,20 @@ router.get('/*', async (req, res) => {
     console.log(key);
     let html;
     let tbody = '';
+    let log = '';
     if (key.length == 0) {
         try {
+            if (req.session.key) {
+                log = `
+                <button type="button"><a href="/info">내 정보</a></button>
+                <form action="/process/logout" method="POST">
+                    <input type="button" value="logout">
+                </form>
+                `;
+            }
+            else {
+                log = '<a href="/loginpage" >login</a>';
+            }
             html = fs.readFileSync(path.join(__dirname, '..', '..', 'views', 'con', 'search.html'), {encoding:'utf8'});
         } catch (err) {
             res.status(404).send('page not found');
