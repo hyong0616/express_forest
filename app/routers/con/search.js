@@ -10,6 +10,11 @@ const FovCon = require('../../lib/fov-con');
 
 router.get('/*', async (req, res) => {
     console.log(req.url.substr(1));
+    if (req.url.substr(1).match(/\./) != null) {
+        console.log(req.url.substr(1).match(/\./));
+        return;
+    }
+    console.log(req.url.substr(1));
     let key = req.url.substr(1);
     console.log(key);
     let html;

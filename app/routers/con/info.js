@@ -36,8 +36,12 @@ router.get('/', async function(req, res) {
 		await userModel.findOne({id:req.session.key}, function(err, user) {
 			if (user != null) {
 				name = user.name;
-				// birth = user.birth;
-				// job = user.job;
+				if (user.birth) {
+					birth = user.birth;
+				}
+				if (user.job) {
+					job = user.job;
+				}
 				my_url = req.get('host') + '/' + user.id;
 			}
 		});
