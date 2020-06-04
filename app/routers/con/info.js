@@ -21,17 +21,26 @@ const pointSchema = new Schema({
 pointSchema.set('collection','vol_point');
 var pointModel = mongoose.model('vol_point',pointSchema);
 
+const userModel = mongoose.model('con_organization');
 
-
-router.get('/*', function(req, res) {
-    console.log(req.url.substr(1));
-    const user_id = req.url.substr(1);
-    console.log(req.session.key);
-    var pointcontent = '';
+router.get('/', async function(req, res) {
+	var pointcontent = '';
+	console.log(req.get('host'));
     if (req.session.key) {
-        let key = req.query.key;
-	let html;
-	let tbody;
+		let html;
+		let name = '';
+		let birth = '';
+		let job = '';
+		let my_url = '';
+
+		await userModel.findOne({id:req.session.key}, function(err, user) {
+			if (user != null) {
+				name = user.name;
+				// birth = user.birth;
+				// job = user.job;
+				my_url = req.get('host') + '/' + user.id;
+			}
+		});
 
 	//connect HTML    
 	try{
@@ -65,7 +74,7 @@ router.get('/*', function(req, res) {
 
     }
     else {
-        res.redirect('/');
+        res.redirect('/loginpage');
     }
 });
 
