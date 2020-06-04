@@ -24,7 +24,7 @@ var pointModel = mongoose.model('vol_point',pointSchema);
 const userModel = mongoose.model('con_organization');
 
 router.get('/', async function(req, res) {
-	var pointcontent = '';
+	var pointcontent = 0;
 	console.log(req.get('host'));
     if (req.session.key) {
 		let html;
@@ -32,6 +32,7 @@ router.get('/', async function(req, res) {
 		let birth = '';
 		let job = '';
 		let my_url = '';
+		let history_url = '';
 
 		await userModel.findOne({id:req.session.key}, function(err, user) {
 			if (user != null) {
@@ -42,7 +43,8 @@ router.get('/', async function(req, res) {
 				if (user.job) {
 					job = user.job;
 				}
-				my_url = req.get('host') + '/' + user.id;
+				history_url = '/' + user.id;
+				my_url = req.get('host') + history_url;
 			}
 		});
 
@@ -69,9 +71,6 @@ router.get('/', async function(req, res) {
 	    
 	    console.log(pointcontent);
 	}).then(function() {
-	    
-	    let content = `
-		<h4>point: ${pointcontent}</h4>`;
 	    let sendHtml = eval(`\`${html}\``);
 	    res.send(sendHtml);
 	    });
