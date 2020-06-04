@@ -22,6 +22,7 @@ const userSchema = new Schema({
             "id" : String,
             "password" : String,
             "name" : String,
+            "email" : String,
             "organization" : String,
     },{
             versionKey:false
@@ -47,7 +48,7 @@ db.on('error',function(){
     console.log("Connection Failed");
 });
 
-router.route('/join').post(function(req,res){
+router.route('/join').get(function(req,res){
     console.log('==========Make member =========');
     res.sendFile(path.join(__dirname, '..', '..', 'views', 'join_page.html'));
  
@@ -75,36 +76,60 @@ router.route('/login').post(function(req,res){
     //user session set
 });
 
-router.route('/dup_email').post(function (req,res){
-    console.log('========check dup_email==========');
-    var check_email=req.body.user_email;
-
-    userModel.findOne({"id": check_email },function(error,user){
+async function checkUserId(user_id, func) {
+    await userModel.findOne({"id": user_id },function(error,user){
         if(user != null){
-        
+            func(true);
         }
         else{
-
+            func(false);
         }
-    });  
+    });
+}
+
+router.route('/dup_id').post(async function (req,res){
+    console.log('========check dup_email==========');
+    var check_id =req.body.user_id;
+    console.log(check_id);
+    let check = true;
+    checkUserId(check_id, function(check) {
+        if(check){
+            res.status(200).json({
+                'check': true
+            });
+        }
+        else{
+            res.status(200).json({
+                'check': false
+            });
+        }
+    })
 });
 
 router.route('/make_member').post(function(req,res){
     console.log('========== Make_Member =========');
-    var member_id=req.body.user_email;
+    var member_id=req.body.user_id;
     var member_pass=req.body.user_psswd;
     var member_name=req.body.user_name;
+    const member_email = req.body.user_email;
     var member_organ=req.body.user_company;
 
-   var save_data= new userModel({"id": member_id,"password":member_pass,"name":member_name, "organization": member_organ});
+    checkUserId(member_id, function(check) {
+        if (!check) {
+            var save_data= new userModel({"id": member_id,"password":member_pass,"name":member_name, "email":member_email, "organization": member_organ});
  
-   console.log('id : '+member_id+' password : '+member_pass+' name : '+member_name+' organization : '+member_organ);
-   
-   save_data.save(function (err,save_data) {
-        if(err)
-           console.err(err);      
+            console.log('id : '+member_id+' password : '+member_pass+' name : '+member_name+" email : "+member_email +' organization : '+member_organ);
+            
+            save_data.save(function (err,save_data) {
+                 if(err)
+                    console.err(err);      
+             });
+            res.redirect('/loginpage');
+        } else {
+            res.redirect('/process/join');
+        }
     });
-   res.redirect('/loginpage');
+   
    
 }); 
 
