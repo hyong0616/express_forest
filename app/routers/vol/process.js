@@ -142,6 +142,7 @@ router.route('/logout').post(function(req,res){
 });
 
 router.route('/save').post(async function(req,res){
+    console.log(req.session.key);
     if (req.session.key) {
         console.log('==========SAVE START=========');
         var vol_id = req.body.volent_id; //봉사자 ID
@@ -153,18 +154,9 @@ router.route('/save').post(async function(req,res){
         let service = '';
         // invoke_chain(student_name, vol_name,vol_date,vol_time);
         var check = false;
-        userModel.findOne({"id": req.session.key,},function(error,user){
-
+        userModel.findOne({"id": req.session.key,}, async function(error,user){
             if (user!=null){
                 service = user.organization;
-                check = true;
-            }
-
-            else{
-                
-            }
-        }).then(async ()=>{
-            if (check) {
                 try {
                     const fovvol = await FovVol('admin');
                     await fovvol.invokeChain(vol_time, vol_date, service, vol_id);
@@ -176,10 +168,10 @@ router.route('/save').post(async function(req,res){
                 /*
                 * point db에 저장
                 */
-                pointModel.findOne({"vol_id": vol_id},function(error,user){
-            
+                pointModel.findOne({"vol_id": vol_id}, async function(error,user){
+                    console.log(user);
                     if (user!=null){
-                        pointModel.update({"vol_id":vol_id},{$inc:{point: +time} });
+                        await pointModel.update({"vol_id":vol_id},{$inc:{point: time} });
                     }
             
                     else{
@@ -191,12 +183,13 @@ router.route('/save').post(async function(req,res){
                         });
             
                     }
+                    res.redirect('http://localhost:3001');
                 });
             }
 
-            res.redirect('http://localhost:3001');
-        }).catch( (err) => {
-            res.redirect('http://localhost:3001');
+            else{
+                console.log(error);
+            }
         });
     }
 });

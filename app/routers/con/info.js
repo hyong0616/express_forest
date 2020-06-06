@@ -48,8 +48,8 @@ router.get('/', async function(req, res) {
 			}
 		});
 
-	//connect HTML    
-	try{
+		//connect HTML    
+		try{
             html = fs.readFileSync(path.join(__dirname, '..', '..', 'views','vol_page.html'), {encoding:'utf8'});
     	}
     	catch (err) {
@@ -57,24 +57,22 @@ router.get('/', async function(req, res) {
             res.status(404).send('page not founded');
     	}
 	
-	//connect Database
-	pointModel.findOne({"vol_id": req.session.key},function(error,user){
-	
-	    if (user!=null) {
-	    	pointcontent = user.point;
-	    	console.log(user);
-	    }
+		//connect Database
+		pointModel.findOne({"vol_id": req.session.key},function(error,user){
+			console.log(user);
+			if (user!=null) {
+				pointcontent = user.point;
+				console.log(user);
+			}
 
-	    else {
-	    	pointcontent = `0`;
-	    }
-	    
-	    console.log(pointcontent);
-	}).then(function() {
-	    let sendHtml = eval(`\`${html}\``);
-	    res.send(sendHtml);
-	    });
-
+			else {
+				pointcontent = `0`;
+			}
+			
+			console.log(pointcontent);
+			let sendHtml = eval(`\`${html}\``);
+			res.send(sendHtml);
+		});
     }
     else {
         res.redirect('/loginpage');
