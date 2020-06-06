@@ -24,7 +24,7 @@ router.get('/*', async (req, res) => {
                 log = `
                 <button type="button"><a href="/info">내 정보</a></button>
                 <form action="/process/logout" method="POST">
-                    <input type="button" value="logout">
+                    <input type="submit" value="logout">
                 </form>
                 `;
             }
