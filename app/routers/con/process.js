@@ -126,5 +126,20 @@ router.route('/logout').post(function(req,res){
     	res.redirect('/');
     }
 });
+router.post('/change', async function(req, res) {
+    if (req.session.key) {
+    	console.log('====== CHANGED ======');
 
+        let newPw = req.body.changePW;
+        let newJob = req.body.user_job;
+        console.log(newPw + ' ' + newJob);
+        await userModel.findOne({"id": req.session.key}, async function(err, user) {
+            if (user != null) {
+                await userModel.update({"id": req.session.key}, {"password":newPw, "job":newJob});
+            }
+        })
+    }
+
+    res.redirect('/info');
+})
 module.exports = router;
