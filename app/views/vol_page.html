@@ -63,14 +63,20 @@
                         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7 col-xl-7 tm-2-col-text">
                             <h2 class="tm-2-col-text-title">회원정보</h2>
                             <p class="tm-2-col-text-description">
-                                <img src="/static/img/human.png" height="100" width="100"> 
-                                <br>
-                                <button>사진 수정하기</button> <br>
+                                <form id="changeForm" action="/process/change" method="POST">
                                  이름 : ${name}<br>
                                  생년월일 : ${birth}<br>
-                                 직업 : ${job}<br>
+                                 비밀번호 :<input type="password" name="changePW" required><br>
+                                 직업 : 
+                                 <select id="job"name="user_job" required>
+                                    <option value="초중등학생"${job==="초등학생"? 'selected': ''}>초중등학생</option>
+                                    <option value="고등학생"${job==="고등학생"? 'selected': ''}>고등학생</option>
+                                    <option value="대학생" ${job==="대학생"?  'selected': ''}>대학생</option>
+                                    <option value="일반인" ${job==="일반인"? 'selected': ''}>일반인</option>
+                                </select><br>
                                  봉사활동 조회 URL : ${my_url}<br>
-                                 <button>정보 수정 </button>
+                                 <input type="submit" onclick="change()" value="정보 수정">
+                                </form>
                             </p>
                             
                         </div>
